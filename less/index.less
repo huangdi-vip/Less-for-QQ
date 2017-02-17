@@ -1,17 +1,21 @@
 @charset "UTF-8"; /*GBK GB2312*/
+@textcolor:#fff;//文字颜色
+@linkcolor:#fff;//超链接颜色
 html, body, section{
   width: 100%;
   height: 100%;
   overflow: hidden;
+  color:@textcolor;
 }
 a{
   text-decoration: none;
-  color: #fff;
+  color:@linkcolor;
+  text-align: center;
 }
 body{
-  font-family:"微软雅黑";
+  font-family:'microsoft yahei Mono','sans-serif';
 }
-@images: "../images";
+@images: "../images";//图片地址
 section.p1{
   background: url("@{images}/page1_glow.png") no-repeat center 100px,
 linear-gradient(0deg, #395ecb 0%, #3657be 35%, #242161 75%, #1a0531 100%);
@@ -29,23 +33,97 @@ section.p4{
 section.p5{
   background: url("@{images}/page5_glow.png") no-repeat center 200px, linear-gradient(0deg, #d74d53 0%, #c44655 35%, #4c184c 75%, #110145 100%);
 }
-.radius(@radius:50%){
+.radius(@radius:50%){//圆角
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
   border-radius: @radius;
 }
-@top:50%;
-/*导航区域*/
-.gps{
-  width: 10px;
-  height: 140px;
-  position: fixed;
+.border(@num:1px,@solid:solid,@bdColor:rgba(255,255,255,.6)){//边框
+  border:@num @solid @bdColor;
+}
+.size(@width:100%,@height:100%){//盒子尺寸
+  width:@width;
+  height: @height;
+}
+.position(@width: 100%,@height:100%,@margin-left:-@width/2,@margin-top:-@height/2){
+  width: @width;
+  height: @height;
+  margin-left:@margin-left;
+  margin-top:@margin-top;
+}
+.container(){//版心
+  .position(900px,600px);
+  .pos;
+}
+.pos(@position:absolute,@left:50%,@top:50%){//left top定位
+  position:@position;
+  left: @left;
   top:@top;
-  right: 20px;
-  margin-top: -70px;
+}
+.pos1(@position:absolute,@left:50%,@bottom:50%){//left bottom定位
+  position:@position;
+  left: @left;
+  bottom:@bottom;
+}
+.pos2(@position:absolute,@right:50%,@top:50%){//right top定位
+  position:@position;
+  right: @right;
+  top:@top;
+}
+@perspective:1000px;
+//添加动画部分
+.animation(@name,@time){
+  -webkit-animation:@name @time  infinite linear;
+  -moz-animation:@name @time  infinite linear;
+  animation:@name @time infinite linear;
+}
+//3d动画
+.animation3d(@name,@time,@AlterNate:alternate){
+  -webkit-animation:@name @time linear infinite @AlterNate;
+  -moz-animation:@name @time linear infinite @AlterNate;
+  animation:@name @time linear infinite @AlterNate;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+.transition(@time: 1s) {
+  -webkit-transition: all @time;
+  -moz-transition: all @time;
+  transition: all @time;
+}
+
+// 定义动画
+.setAnimation(@name, @tx: 0, @ty: 0, @tz: 0, @rx: 0deg, @ry: 0deg, @rz: 0deg, @sx: 1, @sy: 1, @sz: 1, @fromTX: 0, @fromTY: 0, @fromTZ: 0, @fromRX: 0, @fromRY: 0, @fromRZ: 0, @fromSX: 1, @fromSY: 1, @fromSZ: 1) {
+  @keyframes @name {
+    0% {
+      -webkit-transform: translateX(@fromTX) translateY(@fromTY) translateZ(@fromTZ) rotateX(@fromRX) rotateY(@fromRY) rotateZ(@fromRZ) scaleX(@fromSX) scaleY(@fromSY) scaleZ(@fromSZ);
+      -moz-transform: translateX(@fromTX) translateY(@fromTY) translateZ(@fromTZ) rotateX(@fromRX) rotateY(@fromRY) rotateZ(@fromRZ) scaleX(@fromSX) scaleY(@fromSY) scaleZ(@fromSZ);
+      transform: translateX(@fromTX) translateY(@fromTY) translateZ(@fromTZ) rotateX(@fromRX) rotateY(@fromRY) rotateZ(@fromRZ) scaleX(@fromSX) scaleY(@fromSY) scaleZ(@fromSZ);
+    }
+    100% {
+      -webkit-transform: translateX(@tx) translateY(@ty) translateZ(@tz) rotateX(@rx) rotateY(@ry) rotateZ(@rz) scaleX(@sx) scaleY(@sy) scaleZ(@sz);
+      -moz-transform: translateX(@tx) translateY(@ty) translateZ(@tz) rotateX(@rx) rotateY(@ry) rotateZ(@rz) scaleX(@sx) scaleY(@sy) scaleZ(@sz);
+      transform: translateX(@tx) translateY(@ty) translateZ(@tz) rotateX(@rx) rotateY(@ry) rotateZ(@rz) scaleX(@sx) scaleY(@sy) scaleZ(@sz);
+    }
+  }
+}
+
+// 定义transform
+.transform(@tx: 0, @ty: 0, @tz: 0, @rx: 0deg, @ry: 0deg, @rz: 0deg, @sx: 1, @sy: 1, @sz: 1) {
+  transform: translateX(@tx) translateY(@ty) translateZ(@tz) rotateX(@rx) rotateY(@ry) rotateZ(@rz) scaleX(@sx) scaleY(@sy) scaleZ(@sz);
+  -webkit-transform: translateX(@tx) translateY(@ty) translateZ(@tz) rotateX(@rx) rotateY(@ry) rotateZ(@rz) scaleX(@sx) scaleY(@sy) scaleZ(@sz);
+  -moz-transform: translateX(@tx) translateY(@ty) translateZ(@tz) rotateX(@rx) rotateY(@ry) rotateZ(@rz) scaleX(@sx) scaleY(@sy) scaleZ(@sz);
+}
+/*指示器区域*/
+.gps{
+  .position(10px,140px);
+  .pos2(fixed,20px,50%);
+  margin-left: 0;
   li{
-    height: 10px;
+    .position(10px,10px);
     .radius();
     background-color: rgba(255, 255, 255, .3);
     margin-bottom:22px;
+    cursor: pointer;
   }
   li.curr{
     background-color: #fff;
@@ -53,15 +131,11 @@ section.p5{
 }
 /*尾部区域*/
 .footer{
-  width: 100%;
-  height: 30px;
+  .size(100%,30px);
   line-height: 30px;
-  position: absolute;
-  left: 0;
-  bottom: 10px;
+  .pos1(absolute,0,10px);
   padding:0 20px;
   box-sizing: border-box;
-  color: #fff;
   font-weight: bolder;
   >span{
     float: left;
@@ -79,64 +153,47 @@ section.p5{
 /*滚动特效*/
 .scroll{
   display: none;
-  position: absolute;
-  width: 29px;
-  height: 31px;
-  left: 50%;
-  bottom: 30px;
-  margin-left: -15px;
-  animation:upAndDown 0.8s infinite alternate;
+  .pos1(absolute,50%,10px);
+  .position(29px,31px);
+  margin-top: 0;
+  .animation(upAndDown,0.8s);
 }
-@keyframes upAndDown{
-  0%{transform:translateY(10px)}
-  100%{transform:translateY(0px)}
-}
+.setAnimation(upAndDown,@fromTY:10px,@ty: 0px);
 /*头部区域*/
 .logo{
-  width: 220px;
-  height: 50px;
+  .size(220px,50px);
   line-height: 50px;
-  position: absolute;
-  left: 15px;
-  top: 15px;
+  .pos(absolute,15px,15px);
   img{
     vertical-align: middle;
   }
   a{
     float: right;
-    width: 100px;
-    height: 30px;
+    .size(100px,30px);
     line-height: 30px;
-    border: 1px solid rgba(255,255,255,.6);
-    text-align: center;
+    .border;
     .radius(15px);
     margin-top: 9px;
   }
 }
-@perspective:1000px;
 /*第一屏*/
 .p1{
   perspective:@perspective;
   .p1Title{
-    width: 530px;
-    height: 140px;
+    .position(530px,140px);
     line-height: 140px;
-    position: absolute;
-    left: 50%;
-    top: 50px;
-    margin-left: -265px;
+    .pos(absolute,50%,50px);
+    margin-top: 0;
     img{
       width: 350px;
       vertical-align: middle;
     }
     a{
       float: right;
-      width: 120px;
-      height: 40px;
+      .size(120px,40px);
       line-height: 40px;
-      border: 1px solid rgba(255,255,255,.6);
+      .border;
       .radius(5px);
-      text-align: center;
       margin-top: 49px;
       &:hover{
         color: #221b57;
@@ -145,93 +202,59 @@ section.p5{
     }
   }
 }
-@width:900px;
-@height:600px;
-@margin-left:-450px;
-@margin-top:-300px;
-.container(){
-  width: @width;
-  height: @height;
-  margin-left:@margin-left;
-  margin-top:@margin-top;
-  .pos;
-}
-.pos(){
-  position: absolute;
-  left: 50%;
-  top: 50%;
-}
 .p1{
   .p1Main{
     .container;
     ul{
       .container;
-      transform-style: preserve-3d;
-      animation: p1Round 20s infinite alternate;
+      .animation3d(p1Round,20s);
       li{
-        width: 580px;
-        height: 361px;
+        .position(580px,361px);
         .pos;
-        margin-left: -290px;
-        margin-top: -180px;
         backface-visibility: hidden;
       }
       li:nth-child(2){
-        transform:translateZ(70px);
+        .transform(@tz:70px);
       }
       li:nth-child(3){
-        transform:translateZ(70px) rotateY(180deg);
+        .transform(@tz:70px,@ry: 180deg);
       }
       li:nth-child(4){
-        transform:translateZ(0px) rotateY(180deg);
+        .transform(@tz:0px,@ry: 180deg);
       }
       li:nth-child(5){
-        transform:translateZ(-70px) rotateY(180deg);
+        .transform(@tz:-70px,@ry: 180deg);
       }
     }
   }
   .round{
-    width: 680px;
-    height: 680px;
+    .position(680px,680px);
     .pos;
-    margin-left: -340px;
-    margin-top: -340px;
-    animation: p1Circle 2s infinite linear;
+    .animation(p1Circle,2s);
   }
 }
-@keyframes p1Round {
-  0%{transform:rotateY(0deg);}
-  100%{transform:rotateY(360deg);}
-}
-@keyframes p1Circle {
-  0%{transform:rotateX(70deg) rotateY(-12deg) rotateZ(0deg) scaleX(1.5) scaleY(1.5)}
-  100%{transform:rotateX(70deg) rotateY(-12deg) rotateZ(360deg) scaleX(1.5) scaleY(1.5)}
-}
+.setAnimation(p1Round,@fromRY: 0deg,@ty: 360deg);
+.setAnimation(p1Circle,@fromRX: 70deg, @fromRY: -12deg,@fromRZ: 0deg,@fromSX: 1.5,@fromSY: 1.5,@rx:70deg,@ry: -12deg,@rz:360deg,@sx: 1.5,@sy: 1.5);
 /*第二屏*/
 .p2{
   perspective: @perspective;
   .p2Bg{
     span{
-      width: 5000px;
-      height: 1px;
+      .position(5000px,1px);
       background-color: #c7e00e;
       .pos;
-      margin-top: -0.5px;
-      margin-left: -2500px;
       transform: rotateY(-50deg);
     }
     img{
       .pos;
     }
     img:nth-of-type(1){
-      width: 684px;
-      height: 395px;
+      .size(684px,395px);
       margin-top: -197px;
       margin-left: -92px;
     }
     img:nth-of-type(2){
-      width: 346px;
-      height: 123px;
+      .size(346px,123px);
       margin-top: -62px;
       margin-left: 73px;
     }
@@ -244,57 +267,45 @@ section.p5{
       .container;
       transition: all 1s linear;
       li{
-        width: 350px;
-        height: 350px;
+        .position(350px,350px);
         .pos;
-        margin-left: -175px;
-        margin-top: -175px;
-        animation: p2Circle 2s infinite linear;
+        .animation(p2Circle,2s);
       }
       li:nth-child(1){
         left: 70%;
-        transform: rotateY(37deg);
+        .transform(@ry: 37deg);
       }
       li:nth-child(2){
         left: 60%;
-        transform: rotateY(35deg);
+        .transform(@ry: 35deg);
       }
       li:nth-child(3){
         left: 50%;
-        transform: rotateY(37deg);
+        .transform(@ry: 37deg);
       }
       li:nth-child(4){
         left: 40%;
-        transform: rotateY(35deg);
+        .transform(@ry: 35deg);
       }
     }
   }
 }
 .p2{
   .p2Title{
-    width: 370px;
-    height: 200px;
+    .size(370px,200px);
     .pos;
     margin-left: -544px;
     margin-top: -50px;
-    transition: all 1s linear;
+    .transition();
     p{
-      color: #fff;
       font-size: 20px;
       line-height: 30px;
     }
   }
 }
-@keyframes p2Circle {
-  0% {
-    transform:rotateZ(0deg);
-  }
-  100% {
-    transform:rotateZ(360deg);
-  }
-};
+.setAnimation(p2Circle,@fromRZ: 0deg,@rz: 360deg);
 .p2.current .p2Title, .p2.current .p2Main ul{
-  transform: scaleX(4) scaleY(4) scaleZ(1);
+  .transform(@sx:4,@sy: 4);
 }
 
 /*第三屏*/
@@ -305,16 +316,10 @@ section.p5{
       .pos;
     }
     img:nth-child(1){
-      width: 1368px;
-      height: 1111px;
-      margin-left: -684px;
-      margin-top: -521px;
+      .position(1368px,1111px);
     }
     img:nth-child(2){
-      width: 131px;
-      height: 130px;
-      margin-left: -65px;
-      margin-top: -65px;
+      .position(131px,130px);
     }
   }
 }
@@ -324,177 +329,149 @@ section.p5{
     transition: all 1s linear;
     ul{
       .container;
-      transform-style:preserve-3d;
-      animation: p3Circle 20s infinite linear;
-      transition: all 1s linear;
+      .animation3d(p3Circle,20s);
+      .transition();
       li{
-        width: 680px;
-        height: 680px;
-        margin-left: -340px;
-        margin-top: -340px;
+        .position(680px,680px);
         .pos;
-        border: 2px solid #5ec0ff;
+        .border(2px,solid,#5ec0ff);
         .radius();
       }
       li:nth-child(1){
-        transform:rotateY(-60deg);
+        .transform(@ry: -60deg);
       }
       li:nth-child(3){
-        transform:rotateY(60deg);
+        .transform(@ry: 60deg);
       }
       li:nth-child(1) img{
-        animation: p3Round 2s infinite linear;
+        .animation(p3Round,2s);
       }
       li:nth-child(2) img{
-        animation: p3Round 3s infinite linear;
+        .animation(p3Round,3s);
       }
       li:nth-child(3) img{
-        animation: p3Round 4s infinite linear;
+        .animation(p3Round,4s);
       }
     }
   }
 }
-@keyframes p3Round {
-  0%{transform:rotateZ(0deg)}
-  100%{transform:rotateZ(360deg)}
-}
-@keyframes p3Circle {
-  0%{transform:rotateX(70deg) rotateY(0deg)}
-  100%{transform:rotateX(70deg) rotateY(360deg)}
-}
+.setAnimation(p3Round,@fromRZ: 0deg,@rz: 360deg);
+.setAnimation(p3Circle,@fromRX: 70deg,@fromRY: 0deg,@rx: 70deg,@ry: 360deg);
 .p3{
   .p3Title{
-    width: 450px;
-    height: 149px;
+    .size(450px,149px);
     .pos;
     margin-left: 125px;
     margin-top: -80px;
-    transform:rotateX(14deg) rotateY(-13deg);
-    transition: all 1s linear;
+    .transform(@rx:14deg,@ry:-13deg);
+    .transition();
   }
 }
 .p3.current .p3Main{
-  transform:scaleX(5) scaleY(5) scaleZ(1);
+  .transform(@sx:5,@sy:5);
 }
 .p3.current .p3Title{
-  transform: translateX(1000px);
+  .transform(@tx:1000px);
 }
 
 /*第四屏*/
 .p4{
   perspective: @perspective;
   .p4Lines{
-    width: 5000px;
-    height: 230px;
+    .position(5000px,230px);
     .pos;
-    margin-left: -2500px;
     margin-top: 49px;
     .line span{
-      width: 100%;
-      height: 1px;
-      .pos;
-      left: 0;
-      top: 0;
+      .size(100%,1px);
+      .pos(absolute,0,0);
       background-color: #fff;
     }
     .line:nth-child(2) span{
       top: 230px;
     }
     .line img{
-      width: 346px;
-      height: 123px;
-      .pos;
-      top: 0;
-      margin-left: -173px;
-      margin-top: -62px;
-      animation: p4Lines 1s infinite linear;
+      .position(346px,123px);
+      .pos(absolute,50%,0);
+      .animation(p4Lines,1s);
     }
     .line:nth-child(2) img{
       top: 230px;
-      animation: p4Lines 0.5s infinite linear;
+      .animation(p4Lines,0.5s);
     }
   }
 }
-@keyframes p4Lines {
-  0%{transform:translateX(-1000px)}
-  100%{transform:translateX(1000px)}
-}
+.setAnimation(p4Lines,@fromTX: -1000px,@tx:1000px);
 .p4{
   .p4Main{
     .container;
     ul{
       .container;
       transform-style:preserve-3d;
-      transform:rotateX(45deg);
-      transition: all 1s linear;
+      .transform(@rx: 45deg);
+      .transition();
       li{
-        width: 414px;
-        height: 414px;
+       .position(414px,414px);
         .pos;
-        margin-left: -207px;
-        margin-top: -207px;
       }
       li:nth-child(3){
-        transform: translateZ(-100px);
+        .transform(@tz: -100px);
       }
       li:nth-child(4){
-        transform: translateZ(-100px) scaleX(1.1) scaleY(1.1);
+        .transform(@tz: -100px,@sx: 1.1,@sy:1.1);
       }
       li:nth-child(5){
-        transform: translateZ(10px) scaleX(1.2) scaleY(1.2);
+        .transform(@tz: 10px,@sx: 1.2,@sy:1.2);
       }
       li:nth-child(1) img{
-        animation: p4Circle 60s infinite linear;
+        .animation(p4Circle,60s);
       }
       li:nth-child(2) img{
-        animation: p4Circle 20s infinite linear;
+        .animation(p4Circle,20s);
       }
       li:nth-child(3) img{
-        animation: p4Circle 20s infinite linear;
+        .animation(p4Circle,20s);
       }
       li:nth-child(4) img{
-        animation: p4Circle 5s infinite linear;
+        .animation(p4Circle,5s);
       }
       li:nth-child(5) img{
-        animation: p4Circle 4s infinite linear;
+        .animation(p4Circle,4s);
       }
     }
   }
 }
-@keyframes p4Circle {
-  0%{transform: rotateZ(0deg)}
-  100%{transform:rotateZ(360deg)}
-}
+.setAnimation(p4Circle,@fromRZ: 0deg,@rz: 360deg);
 .p4{
   .p4Tag{
-    width: 240px;
-    height: 80px;
+    .size(240px,80px);
     .pos;
     margin-left: -420px;
     margin-top: -40px;
     color: #fff;
-    transition: all 1s linear;
+    .transition();
   }
   .p4Title{
-    width: 300px;
-    height: 71px;
+    .position(300px,71px);
     .pos;
-    margin-left: 150px;
     margin-top: -88px;
-    transform: rotateX(30deg) scaleX(1.2) scaleY(1.2);
-    transition: all 1s linear;
+    .transform(@rx:30deg,@sx:1.2,@sy:1.2);
+    .transition();
   }
 }
 .p4.current .p4Main ul{
-  transform:scaleX(5) scaleY(5) scaleZ(1);
+  .transform(@sx:5,@sy:5);
 }
 .p4.current  .p4Tag{
-  transform:translateX(-1000px);
+  .transform(@tx:-1000px);
 }
 .p4.current  .p4Title{
-  transform:translateX(1000px);
+  .transform(@tx:1000px);
 }
-
+.style{
+  background: url("@{images}/page5_bubble.png") no-repeat;
+  background-size:cover;
+  .transition();
+}
 /*第五屏*/
 .p5{
   .p5Main{
@@ -509,66 +486,48 @@ section.p5{
         }
       }
       li:nth-child(1){
-        width: 305px;
-        height: 305px;
+        .position(305px,305px);
         line-height: 305px;
-        margin-left: -152px;
-        margin-top: -152px;
         background: url("@{images}/page5_bubble_glow.png") no-repeat;
         background-size:cover;
-        transition: all 1s linear;
+        .transition();
       }
       li:nth-child(2){
-        width: 210px;
-        height: 210px;
-        background: url("@{images}/page5_bubble.png") no-repeat;
+        .size(210px,210px);
         line-height: 210px;
         margin-left: -272px;
         margin-top: -234px;
-        background-size:cover;
-        transition: all 1s linear;
+        .style;
       }
       li:nth-child(3){
-        width: 250px;
-        height: 250px;
-        background: url("@{images}/page5_bubble.png") no-repeat;
+        .size(250px,250px);
         line-height: 250px;
         margin-left: -324px;
         margin-top: 70px;
-        background-size:cover;
-        transition: all 1s linear;
+        .style;
       }
       li:nth-child(4){
-        width: 180px;
-        height: 180px;
-        background: url("@{images}/page5_bubble.png") no-repeat;
+        .size(180px,180px);
         line-height: 180px;
         margin-left: 175px;
         margin-top: 46px;
-        background-size:cover;
-        transition: all 1s linear;
+        .style;
       }
       li:nth-child(5){
-        width: 120px;
-        height: 120px;
-        background: url("@{images}/page5_bubble.png") no-repeat;
+        .size(120px,120px);
         line-height: 120px;
         margin-left: 170px;
         margin-top: -195px;
-        background-size:cover;
-        transition: all 1s linear;
+        .style;
       }
       li:nth-child(6){
-        width: 90px;
-        height: 90px;
-        background: url("@{images}/page5_bubble.png") no-repeat;
+       .size(90px,90px);
         line-height: 90px;
         margin-left: 265px;
         margin-top: -140px;
-        background-size:cover;
-        transition: all 1s linear;
+        .style;
         img{
-          transform: scaleX(0.5) scaleY(0.5);
+          .transform(@sx:0.5,@sy:0.5);
         }
       }
     }
@@ -576,27 +535,24 @@ section.p5{
 }
 .p5{
   .p5Tag{
-    width: 230px;
-    height: 80px;
-    color: #fff;
+   .size(230px,80px);
     .pos;
     margin-left: -465px;
     margin-top: -30px;
-    transition: all 1s linear;
+    .transition();
   }
 }
 .p5{
   .p5Title{
-    width: 460px;
-    height: 150px;
+   .size(460px,150px);
     .pos;
     margin-left: 190px;
     margin-top: -75px;
-    transition: all 1s linear;
+    .transition();
   }
 }
 .p5.current .p5Tag, .p5.current .p5Title{
-  transform:translateX(0px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(-90deg) rotateZ(0deg) scaleX(1) scaleY(1) scaleZ(1);
+  .transform(@ry: -90deg);
   transform-origin: 100% 100%;
 }
 .p5.current .p5Main{
